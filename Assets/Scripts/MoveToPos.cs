@@ -49,9 +49,9 @@ public class MoveToPos : MonoBehaviour
     }
 
     void MoveToPosition(){
-        moveTime += Time.deltaTime;
-        Vector3.Lerp(camController.transform.position, movPosition, moveTime);
-
+        moveTime += 0.0001f;
+        Vector3 v = Vector3.Lerp(camController.transform.position, movPosition, moveTime);
+        camController.transform.position = v;
         if (moveTime >= 1.0f){
             hasToMov = false;
         }
