@@ -10,13 +10,15 @@ public class MoveToPos : MonoBehaviour
 
     //move variables
     Vector3 movPosition;
+    Vector3 camPosition;
     bool hasToMov;
-    float moveTime = 0;
-    
+    GameObject hitObject;
+    float speed = 0.1f;
+
 
     // Start is called before the first frame update
     void Start(){
-        
+        Debug.Log(speed);
     }
 
     // Update is called once per frame
@@ -37,8 +39,13 @@ public class MoveToPos : MonoBehaviour
         {
             if (hit.collider.tag == "MovePoint")
             {
+                if(hitObject)
+                    hitObject.SetActive(true);
                 movPosition = hit.point;
                 hasToMov = true;
+                hitObject = hit.collider.gameObject;
+                hitObject.SetActive(false);
+                camPosition = camController.transform.position;
             }
             Debug.DrawRay(camController.transform.position, fwd, Color.green, Mathf.Infinity);
         }
@@ -49,12 +56,19 @@ public class MoveToPos : MonoBehaviour
     }
 
     void MoveToPosition(){
-        moveTime += 0.0001f;
-        Vector3 v = Vector3.Lerp(camController.transform.position, movPosition, moveTime);
-        camController.transform.position = v;
-        if (moveTime >= 1.0f){
+
+
+        Vector3 dir = movPosition - camPosition;
+        dir.Normalize();
+        camController.transform.position += dir*speed;
+
+        float distance = movPosition.magnitude - camController.transform.position.magnitude;
+
+        
+        if (distance <= 0.1f && distance >= -0.1f){
             hasToMov = false;
         }
+
     }
 
 }

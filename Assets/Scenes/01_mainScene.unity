@@ -690,6 +690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camController: {fileID: 623577380}
+  speed: 0
 --- !u!1 &1298618973
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,6 +802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camController: {fileID: 623577380}
+  speed: 10
 --- !u!1 &1826588697
 GameObject:
   m_ObjectHideFlags: 0
