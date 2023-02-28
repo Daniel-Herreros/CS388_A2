@@ -3,7 +3,14 @@ public class ConfigMenu : MonoBehaviour {
 	public GameObject NOVRstuff; //single camera
 	public GameObject VRStuff; //Two eyed camera
 	float testTime = 10f; //time to go back from vr
-	// Use this for initialization
+						  // Use this for initialization
+
+
+
+	public Animator mAnim;
+	public GameObject mFader;
+
+
 	void Start () {
 		EndTest ();
 	}
@@ -11,7 +18,11 @@ public class ConfigMenu : MonoBehaviour {
 	public void LoadNextScene(){
 		this.enabled = false; //Security check to avoid multiple instances
 		//Load next scene (hardcoded)
-		UnityEngine.SceneManagement.SceneManager.LoadScene (2);
+		mFader.SetActive(true);
+
+		Invoke("Play", 1.15f);
+		mAnim.Play("FadeOut");
+
 	}
 	//Deactivates non vr camera, and activates vr
 	public void StartTest(){
@@ -23,5 +34,9 @@ public class ConfigMenu : MonoBehaviour {
 	public void EndTest(){
 		VRStuff.SetActive (false);
 		NOVRstuff.SetActive (true);
+	}
+	void Play()
+	{
+		UnityEngine.SceneManagement.SceneManager.LoadScene(2);
 	}
 }

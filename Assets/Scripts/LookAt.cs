@@ -7,6 +7,9 @@ public class LookAt : MonoBehaviour
 {
 
 
+    public Animator mAnim;
+    public GameObject mFader;
+
     public GameObject camController;
 
     //move variables
@@ -18,15 +21,19 @@ public class LookAt : MonoBehaviour
 
     GameObject prevHitObject;
 
+    bool fading = false;
+
 
     // Start is called before the first frame update
-    void Start(){
+    void Start()
+    {
+        Invoke("DeactivateFader", 1.15f);
     }
 
     // Update is called once per frame
     void Update(){
-
-        SetDirection();
+        if(!fading)
+            SetDirection();
 
     }
 
@@ -41,7 +48,7 @@ public class LookAt : MonoBehaviour
                 if (hit.colliderInstanceID == colliderId)
                 {
                     Color rend = hit.collider.gameObject.GetComponent<Button>().image.color;
-                    hit.collider.gameObject.GetComponent<Button>().image.color = new Color(rend.r, rend.g-0.1f, rend.b - 0.1f, rend.a);
+                    hit.collider.gameObject.GetComponent<Button>().image.color = new Color(rend.r, rend.g-0.01f, rend.b - 0.01f, rend.a);
                     if(rend.g <= 0.0f)
                     {
                         finish = true;
@@ -61,7 +68,10 @@ public class LookAt : MonoBehaviour
                         hitObject.GetComponent<Button>().image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
                     }
                     hitObject = hit.collider.gameObject;
-                    UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+                    mFader.SetActive(true);
+                    Invoke("Play", 1.15f);
+                    mAnim.Play("FadeOut");
+                    fading = true;
 
                 }
                 Debug.DrawRay(camController.transform.position, fwd, Color.green, Mathf.Infinity);
@@ -75,4 +85,13 @@ public class LookAt : MonoBehaviour
             }
         }
     }
+
+    void Play(){
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+    }
+    void DeactivateFader()
+    {
+        mFader.SetActive(false);
+    }
+
 }
