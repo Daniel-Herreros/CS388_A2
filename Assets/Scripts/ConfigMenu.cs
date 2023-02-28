@@ -9,10 +9,12 @@ public class ConfigMenu : MonoBehaviour {
 
 	public Animator mAnim;
 	public GameObject mFader;
+	public GameObject mFadeIn;
 
 
 	void Start () {
 		EndTest ();
+		Invoke("DeactivateFader", 1.15f);
 	}
 	//Load next scene when continue is pressed
 	public void LoadNextScene(){
@@ -39,4 +41,9 @@ public class ConfigMenu : MonoBehaviour {
 	{
 		UnityEngine.SceneManagement.SceneManager.LoadScene(2);
 	}
+	void DeactivateFader()
+	{
+		mFadeIn.SetActive(false);
+	}
+
 }
