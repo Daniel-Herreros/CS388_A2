@@ -8,7 +8,16 @@ public class CamController : MonoBehaviour {
 
 	private Vector3 tempRotation;  //Temporary rotation over frame
 	Vector3 oldMousePos = new Vector3(-1f,-1f,-1f); //Position of mouse on the last frame
-	// Update is called once per frame
+                                                    // Update is called once per frame
+
+    private void Start(){
+#if UNITY_EDITOR
+		this.GetComponent<Camera>().enabled = true;
+		this.GetComponent<GyroscopeControl>().enabled = false;
+
+#endif
+		
+	}
 	void Update () {
 		if(!controlActive) return;  //Returns if script deactivated
 		tempRotation = Vector3.zero; //Inits frame rotation
