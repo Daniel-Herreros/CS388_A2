@@ -3888,13 +3888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f30da6b63e38d4892a03d99ccc0d37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transformObject: {fileID: 0}
-  gyroEnabled: 1
-  cameraBase: {x: 0, y: 0, z: 0, w: 1}
-  calibration: {x: 0, y: 0, z: 0, w: 1}
-  baseOrientation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-  baseOrientationRotationFix: {x: 0, y: 0, z: 0, w: 1}
-  referanceRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!81 &623577384
 AudioListener:
   m_ObjectHideFlags: 0
@@ -8735,7 +8728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1653722068
 Animator:
   serializedVersion: 4
