@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 228016940}
   - component: {fileID: 228016946}
   m_Layer: 0
-  m_Name: CameraController
+  m_Name: VRCameraController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

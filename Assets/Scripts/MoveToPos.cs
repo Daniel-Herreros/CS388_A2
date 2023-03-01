@@ -7,6 +7,14 @@ public class MoveToPos : MonoBehaviour
 
 
     public GameObject camController;
+    public GameObject mFader;
+    public GameObject mFadeOut;
+    public Animator mAnim;
+
+    public GameObject mKey;
+    public Key mKeyComp;
+
+    public LayerMask IgnoreMe;
 
     //move variables
     Vector3 movPosition;
@@ -22,6 +30,7 @@ public class MoveToPos : MonoBehaviour
 
     // Start is called before the first frame update
     void Start(){
+        Invoke("DeactivateFader", 1.15f);
     }
 
     // Update is called once per frame
@@ -32,13 +41,32 @@ public class MoveToPos : MonoBehaviour
         } else {
             MoveToPosition();
         }
+        
 
+        //When the player arrives at the exit
+        float distance = Vector3.Distance(movPosition, new Vector3(10, 1.5f, -8));
+
+        if (distance < 0.1)
+        {
+            mFadeOut.SetActive(true);
+            Invoke("Play", 1.15f);
+            mAnim.Play("FadeOut");
+        }
+
+
+
+        distance = Vector3.Distance(camController.transform.position, mKey.transform.position);
+        Debug.Log(distance);
+        if (distance < 0.1)
+        {
+            mKeyComp.PlayerCollided();
+        }
     }
 
     void SetDirection(){
         Vector3 fwd = camController.transform.forward;
         RaycastHit hit;
-        if (Physics.Raycast(camController.transform.position, fwd, out hit))
+        if (Physics.Raycast(camController.transform.position, fwd, out hit, 100000.0f, ~IgnoreMe))
         {
             if (hit.collider.tag == "MovePoint")
             {
@@ -75,6 +103,7 @@ public class MoveToPos : MonoBehaviour
                     camPosition = camController.transform.position;
                 }
                 Debug.DrawRay(camController.transform.position, fwd, Color.green, Mathf.Infinity);
+                
             }
             else
             {
@@ -84,6 +113,8 @@ public class MoveToPos : MonoBehaviour
                     prevHitObject.GetComponent<Collider>().gameObject.GetComponent<Renderer>().material.color = new Color(rend.material.color.r, rend.material.color.g, rend.material.color.b, 1.0f);
                 }
             }
+
+            DrawLine(camController.transform.position, hit.point, Color.blue, 0.1f);
         }
     }
 
@@ -94,8 +125,8 @@ public class MoveToPos : MonoBehaviour
         dir.Normalize();
         camController.transform.position += dir*speed;
 
-        float distance = movPosition.magnitude - camController.transform.position.magnitude;
-
+        
+        float distance = Vector3.Distance(movPosition, camController.transform.position);
         
         if (distance <= 0.1f && distance >= -0.1f){
             hasToMov = false;
@@ -103,4 +134,28 @@ public class MoveToPos : MonoBehaviour
 
     }
 
+    void DrawLine(Vector3 start, Vector3 end, Color color, float duration = 0.2f)
+    {
+        GameObject myLine = new GameObject();
+        myLine.transform.position = start;
+        myLine.AddComponent<LineRenderer>();
+        LineRenderer lr = myLine.GetComponent<LineRenderer>();
+        //lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+        lr.startColor = color;
+        lr.endColor = color;
+        lr.startWidth = 0.1f;
+        lr.endWidth = 0.1f;
+        lr.SetPosition(0, start - new Vector3(0.0f, 1.0f, 0.0f));
+        lr.SetPosition(1, end);
+        GameObject.Destroy(myLine, duration);
+    }
+
+    void DeactivateFader()
+    {
+        mFader.SetActive(false);
+    }
+
+    void Play() {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
 }

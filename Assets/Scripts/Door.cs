@@ -7,13 +7,12 @@ public class Door : MonoBehaviour
 
     public GameObject mMesssage;
 
-
-
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
+        {
             mMesssage.SetActive(true);
+        }
     }
 
     private void OnCollisionExit(Collision collision)

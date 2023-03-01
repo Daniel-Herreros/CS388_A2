@@ -29,8 +29,14 @@ public class Key : MonoBehaviour
     }
 
 
+    public void PlayerCollided() {
+        GameObject.Destroy(this);
+        GameObject.Destroy(mDoor);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.gameObject.CompareTag("Player"))
         {
             GameObject.Destroy(this);
